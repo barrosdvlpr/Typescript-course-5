@@ -7,32 +7,60 @@ export default function Home() {
   )
 }
 
+class Library {
+  // titles: string[]; // string[] !== undefined
+  // titles: string[] | undefined; 
 
-// population of africa: 1287269147
-// population of africa: 1,287,269,147
+  // titles: string[] = [
+  //   "what if?",
+  //   "So"
+  // ]
 
-// var africaPop = 1287269147;
-// const africaPop = 1_2_8_7_269_147.123_456;
+  // titles: string[]
 
-// class AmountInput {
-  //   private static MAX_ALLOWED = 99_999_999;
-  //   amount: number = 0;
-// }
-  
-const africaPop = 1_287_269_147;
-class AmountInput {
-  private static MAX_ALLOWED = 99_999_999;
+  // titles!: string[]
 
-  amount: number = 0;
+  // constructor() {}
 
-showTooltip() {
-  //show tooltip
-  setTimeout(() => {
-    //hide tooltip
-  }, 2_500);
-}
+  // constructor() {
+  //   this.titles = [
+  //     "what if?",
+  //     "So"
+  //   ];
+  // }
 
-  formatMillion() {
-    return this.amount / 1_000_000 + "M";
+  // constructor(underRenovation: boolean) {
+  //   if(!underRenovation){
+  //   this.titles = [
+  //     "what if?",
+  //     "So"
+  //   ];
+  //   } else {
+  //   this.titles = []
+  //   }
+  // }
+
+
+
+  titles!: string[];
+  address: string = "1 Duck Lane";
+  isPUblic: boolean;
+
+  constructor() {
+    this.isPublic = true;
   }
+
 }
+const library = new Library();
+
+// sometime later & elsewhere in our codebase..
+
+const shortTitles = library.titles.filter(
+  title => title.length < 5
+);
+
+// if(library.titles){
+//   const shortTitles = library.titles.filter(
+//     title => title.length < 5
+//   );
+// }
