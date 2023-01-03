@@ -7,60 +7,44 @@ export default function Home() {
   )
 }
 
-class Library {
-  // titles: string[]; // string[] !== undefined
-  // titles: string[] | undefined; 
-
-  // titles: string[] = [
-  //   "what if?",
-  //   "So"
-  // ]
-
-  // titles: string[]
-
-  // titles!: string[]
-
-  // constructor() {}
-
-  // constructor() {
-  //   this.titles = [
-  //     "what if?",
-  //     "So"
-  //   ];
-  // }
-
-  // constructor(underRenovation: boolean) {
-  //   if(!underRenovation){
-  //   this.titles = [
-  //     "what if?",
-  //     "So"
-  //   ];
-  //   } else {
-  //   this.titles = []
-  //   }
-  // }
-
-
-
-  titles!: string[];
-  address: string = "1 Duck Lane";
-  isPUblic: boolean;
-
-  constructor() {
-    this.isPublic = true;
-  }
-
+interface Admin {
+  id: string;
+  role: string:
 }
-const library = new Library();
+interface User {
+  email: string;
+}
 
-// sometime later & elsewhere in our codebase..
-
-const shortTitles = library.titles.filter(
-  title => title.length < 5
-);
-
-// if(library.titles){
-//   const shortTitles = library.titles.filter(
-//     title => title.length < 5
-//   );
+// function redirect(usr: Admin | User) {
+//   if(/**)
 // }
+
+// function redirect(usr: Admin | User) {
+//   if(/*user is admin*/) {
+//     routeToAdminPage(usr.role);
+//   } else {
+//     routeToHomePage(usr.email);
+//   }
+// }
+
+// function redirect(usr: Admin | User) {
+//   if((<Admin>usr).role !== undefined) {
+//     routeToAdminPage(usr.role);
+//   } else {
+//     routeToHomePage(usr.email);
+//   }
+// }
+
+// function isAdmin(usr: Admin | User): usr is Admin {
+//   return (<Admin>usr).role !==undefined
+// }
+
+
+function redirect(usr: Admin | User) {
+  if("role" in usr) {
+    routeToAdminPage(usr.role);
+  } else {
+    routeToHomePage(usr.email);
+  }
+}
+
