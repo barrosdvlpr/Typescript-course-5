@@ -7,44 +7,22 @@ export default function Home() {
   )
 }
 
-interface Admin {
-  id: string;
-  role: string:
-}
-interface User {
-  email: string;
+interface IPet {
+  name: string;
+  age: number;
+  favoritPark?: string;
 }
 
-// function redirect(usr: Admin | User) {
-//   if(/**)
-// }
-
-// function redirect(usr: Admin | User) {
-//   if(/*user is admin*/) {
-//     routeToAdminPage(usr.role);
-//   } else {
-//     routeToHomePage(usr.email);
-//   }
-// }
-
-// function redirect(usr: Admin | User) {
-//   if((<Admin>usr).role !== undefined) {
-//     routeToAdminPage(usr.role);
-//   } else {
-//     routeToHomePage(usr.email);
-//   }
-// }
-
-// function isAdmin(usr: Admin | User): usr is Admin {
-//   return (<Admin>usr).role !==undefined
-// }
-
-
-function redirect(usr: Admin | User) {
-  if("role" in usr) {
-    routeToAdminPage(usr.role);
-  } else {
-    routeToHomePage(usr.email);
-  }
+type ReadonlyPet = {
+  +readonly [K in keyof IPet]-?: IPet[K];
 }
 
+const pet:IPet = {name: 'Buttons', age: 5};
+const readonlyPet: ReadonlyPet = {
+  name: 'Buttons', 
+  age: 5,
+  favoritPark: 'central'
+}
+
+pet.age = 6;
+readonlyPet.age = 6;
