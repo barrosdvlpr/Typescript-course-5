@@ -7,148 +7,69 @@ export default function Home() {
   )
 }
 
-type Pet = IDog | ICat;
 
-interface IAnimal {
-  age: number;
-  eat(): void;
-  speak(): string;
+
+interface TreeNode<T> {
+  value: T;
+  left: TreeNode<T>;
+  right: TreeNode<T>;
 }
 
-function feedAnimal(animal: IAnimal) {
-  animal.eat();
+
+
+interface LinkedListNode<T> {
+  value: T;
+  next: LinkedListNode<T>;
 }
 
-class Animal implements IAnimal {
-  age = 0;
 
-  eat() {
-    console.log("nom..nom..");
-  }
 
-  speak() {
-    return "roar";
-  }
+let node: LinkedListNode<string>;
+node.next.next.next.next.next.next.next.next.value;
+
+
+
+interface Action {
+  type: string;
 }
 
-interface IDog {}
-interface ICat {}
+// action1/state1 --> action2/state2 --> action3/state3
 
-export {};
-
-////////////////////////
-
-interface IAnimal {
-  age: number;
-  eat(): void;
-  speak(): string;
+interface ListNode<T> {
+  value: T;
+  next: ListNode<T>;
+  prev: ListNode<T>;
 }
 
-type AnimalTypeAlias = {
-  age: number;
-  eat(): void;
-  speak(): string;
+let action1 = { type: "LOGIN" };
+let action2 = { type: "LOAD_POSTS" };
+
+
+
+let actionNode1: ListNode<Action> = {
+  value: action1,
+  next: null,
+  prev: null
 };
 
-let animalInterface: IAnimal;
-let animalTypeAlias: AnimalTypeAlias;
-
-animalInterface = animalTypeAlias;
-
-export {};
-
-////////////////////////
-
-type Eat = (food: string) => void;
-type AnimalList = string[];
-
-interface IEat {
-  (food: string): void;
-}
-
-interface IAnimalList {
-  [index: number]: string;
-}
-
-/////////////////////////
-
-type Cat = IPet & IFeline;
-
-interface IPet {
-  pose(): void;
-}
-interface IFeline {
-  nightvision: boolean;
-}
-
-
-
-type Cat = IPet & IFeline;
-
-interface ICat extends IPet, IFeline {
-
-}
-
-////////////////////////
-
-type Pet = {
-  pose(): void;
+let actionNode2: ListNode<Action> = {
+  value: action2,
+  next: null,
+  prev: actionNode1
 };
 
-interface IFeline {
-  nightvision: boolean;
-}
+actionNode1.next = actionNode2;
 
-interface ICat extends IFeline, Pet {
-
-}
-
-type Cat = IFeline & Pet;
-
-class HouseCat implements IFeline, Pet {
-
-}
-export {};
-
-///////////////////////////
-
-type PetType = IDog | ICat;
-
-interface IPet extends PetType {
-
-}
-
-class Pet implements PetType {
-
-}
-
-interface IDog {}
-interface ICat {}
+actionNode1.next = actionNode2;
+actionNode1.next.next.next.next.value;
 
 
 
-type Foo = {
-  a: string;
-}
+actionNode1.next = actionNode2;
 
-type Foo = {
-  b: string;
-}
+let currentNode = actionNode2;
 
-let foo: Foo;
-
-/////////////////////////////
-
-import * as $ from "jquery";
-
-$.fn.extend({
-  hideChildren: function() {
-    // ...
-  }
-});
-
-$("test").hideChildren();
-
-interface JQuery {
-  hideChildren(): JQuery;
-}
+do {
+  console.log(currentNode.value);
+  currentNode = currentNode.prev;
+} while (currentNode);
