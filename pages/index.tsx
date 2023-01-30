@@ -9,91 +9,54 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-let i = 0;
-do {
-  console.log(numbers[i]);
-  i++;
-} while (i < numbers.length);
+// const halloweenCostumeIdeas = ['😱 ', '👹', '🤖', '👻', '👽'];
+// const halloweenCostumeIdeas:any = ['😱 ', '👹', '🤖', '👻', '👽'];
+const halloweenCostumeIdeas:any = true;
 
-for (let num of numbers) {
-  console.log(num);
+
+halloweenCostumeIdeas.indexOf('👽');
+halloweenCostumeIdeas.a.b.c.d;
+halloweenCostumeIdeas();
+
+function randomCostume(ideas: string[]) {
+  return ideas[Math.floor(Math.random() * ideas.length)];
 }
 
-////////////////////////////////////////////////
+randomCostume(halloweenCostumeIdeas);
 
-interface Action {
-  type: string;
+
+
+const human = { name: "John", age: 25};
+
+function printAge(human: any) {
+    console.log(human.age);
 }
 
-interface ListNode<T> {
-  value: T;
-  next: ListNode<T>;
-  prev: ListNode<T>;
+
+
+interface IComment {
+  date: Date;
+  message: string;
 }
 
-class BackwardsActionIterator implements IterableIterator<Action> {
-  [Symbol.iterator](): IterableIterator<Action> {
-    // throw new Error("Method not implemented.");
-    return this;
-  }
-
-  next(): IteratorResult<Action> {
-    throw new Error("Method not implemented.");
-  }
+interface IDataService {
+  getData(): unknown;
 }
 
-////////////////////////////////////////////////
+let service: IDataService;
 
-class BackwardsActionIterator implements IterableIterator<Action> {
-  constructor(private_currentActionNode: ListNode<Action>){
+const response = service.getData();
+response.a.b.c.d;
 
-  }
-  [Symbol.iterator](): IterableIterator<Action> {
-    return this;
-  }
-
-  next(): IteratorResult<Action> {
-    const curr = this._currentActionNode;
-    if(!curr || !curr.value) {
-      return {value: null, done: true};
-    }
-    //1. move through each item in the list 
-    this._currentActionNode = curr.prev;
-    //2. return each item
-    return {value: curr.value, done: false};
-  }
+if(typeof response === 'string') {
+  console.log(response.toUpperCase());
+} else if(isComment(response)){
+  response.date;
+} else {
+  const numbers = <number[]>response;
+  numbers.indexOf(1);
 }
 
-let action1 = { type: "LOGIN" };
-let action2 = { type: "LOAD_POSTS" };
-let action3 = { type: "DISPLAY_POSTS" };
-let action4 = { type: "LOGOUT" };
-
-
-let actionNode1: ListNode<Action> = {
-  prev: null,
-  next: null,
-  value: action1
-};
-let actionNode2: ListNode<Action> = {
-  prev: actionNode1,
-  next: null,
-  value: action2
-};
-actionNode1.next = actionNode2;
-let actionNode3: ListNode<Action> = {
-  prev: actionNode2,
-  next: null,
-  value: action3
-};
-actionNode2.next = actionNode3;
-let actionNode4: ListNode<Action> = {
-  prev: actionNode3,
-  next: null,
-  value: action4
-};
-actionNode3.next = actionNode4;
-
-const backwardsActionsList = new BackwardsActionIterator (
-  actionNode4
-);
+function isComment(type: any): type is IComment {
+  return (<IComment>type).message !== undefined;
+}
