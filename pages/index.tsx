@@ -9,54 +9,76 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-// const halloweenCostumeIdeas = ['😱 ', '👹', '🤖', '👻', '👽'];
-// const halloweenCostumeIdeas:any = ['😱 ', '👹', '🤖', '👻', '👽'];
-const halloweenCostumeIdeas:any = true;
-
-
-halloweenCostumeIdeas.indexOf('👽');
-halloweenCostumeIdeas.a.b.c.d;
-halloweenCostumeIdeas();
-
-function randomCostume(ideas: string[]) {
-  return ideas[Math.floor(Math.random() * ideas.length)];
+interface StringContainer {
+  value: string;
+  format(): string;
+  split(): string[];
 }
 
-randomCostume(halloweenCostumeIdeas);
-
-
-
-const human = { name: "John", age: 25};
-
-function printAge(human: any) {
-    console.log(human.age);
+interface NumberContainer {
+  value: number;
+  nearestPrime: number;
+  round(): number;
 }
 
+type Item<T> = {
+  id: T,
+  container: any;
+};
+
+// let item: Item<string> = {
+//   id: "a23d",
+//   container: null
+// };
+
+let item: Item<number> = {
+  id: "a23d",
+  container: null
+};
+
+type Item<T> = {
+  id: T,
+  container: T extends string ? StringContainer : NumberContainer;
+};
 
 
-interface IComment {
-  date: Date;
-  message: string;
+
+type ArrayFilter<T> = T extends any[] ? T : never;
+
+type StringsOrNumbers = ArrayFilter<string | number | string[] | number[]>;
+
+
+interface Book {
+  id: string;
+  tableOfContents: string[];
 }
 
-interface IDataService {
-  getData(): unknown;
+interface Tv {
+  id: number;
+  diagonal: number;
 }
 
-let service: IDataService;
-
-const response = service.getData();
-response.a.b.c.d;
-
-if(typeof response === 'string') {
-  console.log(response.toUpperCase());
-} else if(isComment(response)){
-  response.date;
-} else {
-  const numbers = <number[]>response;
-  numbers.indexOf(1);
+interface IItemService {
+  getItem<T>(id: T): Book | Tv;
 }
 
-function isComment(type: any): type is IComment {
-  return (<IComment>type).message !== undefined;
+let itemService: IItemService; 
+
+interface IItemService {
+  getItem(id: string): Book;
+  getItem(id: number): Tv;
+  getItem<T>(id: T): Book | Tv;
 }
+
+// interface IItemService {
+//   getItem<T>(id: T): T extends string ? Book : Tv;
+// }
+
+interface IItemService {
+  getItem<T extends string | number>(id: T): T extends string ? Book : Tv;
+}
+
+let itemService: IItemService;
+
+const book = itemService.getItem("10");
+const tv = itemService.getItem(true);
