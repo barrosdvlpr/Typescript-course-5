@@ -9,76 +9,22 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-interface StringContainer {
-  value: string;
-  format(): string;
-  split(): string[];
-}
+const numbers = [2, 1]; // --> number[]
 
-interface NumberContainer {
-  value: number;
-  nearestPrime: number;
-  round(): number;
-}
-
-type Item<T> = {
-  id: T,
-  container: any;
+const someObject = {
+    id: 21,
+    name: 'Jonathan'
 };
 
-// let item: Item<string> = {
-//   id: "a23d",
-//   container: null
-// };
+const someBoolean = true;
 
-let item: Item<number> = {
-  id: "a23d",
-  container: null
-};
+type Flatten<T> = T extends any [] ? T[number];
+    T extends object ? T[keyof T];
+    T;
 
-type Item<T> = {
-  id: T,
-  container: T extends string ? StringContainer : NumberContainer;
-};
+// keyof T --> "id" | "name"
+// T["id" | "name"] --> T["id"] | T["name"] --> number | string
 
-
-
-type ArrayFilter<T> = T extends any[] ? T : never;
-
-type StringsOrNumbers = ArrayFilter<string | number | string[] | number[]>;
-
-
-interface Book {
-  id: string;
-  tableOfContents: string[];
-}
-
-interface Tv {
-  id: number;
-  diagonal: number;
-}
-
-interface IItemService {
-  getItem<T>(id: T): Book | Tv;
-}
-
-let itemService: IItemService; 
-
-interface IItemService {
-  getItem(id: string): Book;
-  getItem(id: number): Tv;
-  getItem<T>(id: T): Book | Tv;
-}
-
-// interface IItemService {
-//   getItem<T>(id: T): T extends string ? Book : Tv;
-// }
-
-interface IItemService {
-  getItem<T extends string | number>(id: T): T extends string ? Book : Tv;
-}
-
-let itemService: IItemService;
-
-const book = itemService.getItem("10");
-const tv = itemService.getItem(true);
+type NumbersArrayFlattened = Flatten<typeof numbers>; // --> number
+type SomeObjectFlattened = Flatten<typeof someObject>; // --> number | string
+type SomeBooleanFlattened = Flatten<typeof someBoolean>; // --> true
