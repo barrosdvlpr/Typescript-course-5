@@ -9,50 +9,82 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-interface IEmail {
-  from: string;
-  to: string[];
-  body: string;
-}
+const fetch = require('node-fetch');
 
 interface ITodo {
-  isCompleted: boolean;
-  text: string;
-  linkedEmail: IEmail;
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
-interface IRootState {
-  userId: string;
-  showCompletedOnly: boolean;
-  todoTypes: string[];
-  todos: ITodo[];
-  iconGrid: string[][];
+// function GetTodos(target: any, name: string) {
+//   const hiddenInstanceKey = "_$$" + name + "$$_";
+//   const init = () => {
+//     return fetch('https://jsonplaceholder.typicode.com/todos')
+//       .then(response => response.json()); 
+//   };
+
+//   Object.defineProperty(target, name, {
+//     get: function() {
+//       return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = init());
+//     }
+//   });
+// }
+
+// class TodoService {
+//   @GetTodos
+//   todos: Promise<ITodo[]>;
+// }
+
+function Get(url: string) {
+  return function(target: any, name: string) {
+    const hiddenInstanceKey = "_$$" + name + "$$_";
+    const init = () => {
+      return fetch(url)
+        .then(response => response.json()); 
+    };
+
+    Object.defineProperty(target, name, {
+      get: function() {
+        return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = init());
+      },
+      configurable: true
+    });
+  }
+}  
+
+function First() {
+  return function(target: any, name: string) {
+    const hiddenInstanceKey = "_$$" + name + "$$_";
+    const prevInit = Object.getOwnPropertyDescriptor(target, name).get;
+    const init = () => {
+      return prevInit()
+        .then(response => response[0]); 
+    };
+
+    Object.defineProperty(target, name, {
+      get: function() {
+        return this[hiddenInstanceKey] || (this[hiddenInstanceKey] = init());
+      },
+      configurable: true
+    });
+  }
+}
+  
+class TodoService {
+  @First()
+  @Get('https://jsonplaceholder.typicode.com/todos')
+  todos: Promise<ITodo[]>;
 }
 
-type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
-
-type DeepReadonly<T> = T extends (infer E)[] ?
-    ReadonlyArray<ReadonlyArray<DeepReadonlyObject<E>>> :
-  T extends object ? DeepReadonlyObject<T> :
-  T;
-
-type IReadonlyRootState = DeepReadonly<IRootState>;
-
-function rootReducer(action: any, state: IReadonlyRootState): IReadonlyRootState {
-// function rootReducer(action: any, state: IRootState): IRootState {
-  // case action 1...
-  // case action 2...
-  return state;
-}
-
-let state: IReadonlyRootState;
-
-state.showCompletedOnly = true;
-state.userId = "newId";
-state.todoTypes = [];
-state.todoTypes[0] = "diff type";
-state.todos[1].linkedEmail.body = "hi";
-state.todos[1].linkedEmail.to[1] = "john@gmail.com";
-
-state.todoTypes.map(todo => todo.toUpperCase());
-state.iconGrid[0].map(icon => icon);
+const todoService = new TodoService();
+todoService.todos.then(todos => {
+  console.log(todos);
+})
+todoService.todos.then(todos => {
+  console.log(todos);
+})
+todoService.todos.then(todos => {
+  console.log(todos);
+})
