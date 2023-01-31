@@ -9,22 +9,16 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-const numbers = [2, 1]; // --> number[]
+function generateId(seed: number) {
+  // return seed + 5;
+  return seed + "5";
+}
 
-const someObject = {
-    id: 21,
-    name: 'Jonathan'
-};
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+type Id = ReturnType<typeof generateId>;
 
-const someBoolean = true;
+lookupEntity(generateId(10));
 
-type Flatten<T> = T extends any [] ? T[number];
-    T extends object ? T[keyof T];
-    T;
-
-// keyof T --> "id" | "name"
-// T["id" | "name"] --> T["id"] | T["name"] --> number | string
-
-type NumbersArrayFlattened = Flatten<typeof numbers>; // --> number
-type SomeObjectFlattened = Flatten<typeof someObject>; // --> number | string
-type SomeBooleanFlattened = Flatten<typeof someBoolean>; // --> true
+function lookupEntity(id: string) {
+  // query DB for entity by ID
+}
