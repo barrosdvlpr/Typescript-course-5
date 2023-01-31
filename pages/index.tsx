@@ -9,22 +9,50 @@ export default function Home() {
 
 ////////////////////////////////////////////////
 
-const numbers = [2, 1]; // --> number[]
+interface IEmail {
+  from: string;
+  to: string[];
+  body: string;
+}
 
-const someObject = {
-    id: 21,
-    name: 'Jonathan'
-};
+interface ITodo {
+  isCompleted: boolean;
+  text: string;
+  linkedEmail: IEmail;
+}
 
-const someBoolean = true;
+interface IRootState {
+  userId: string;
+  showCompletedOnly: boolean;
+  todoTypes: string[];
+  todos: ITodo[];
+  iconGrid: string[][];
+}
 
-type Flatten<T> = T extends any [] ? T[number];
-    T extends object ? T[keyof T];
-    T;
+type DeepReadonlyObject<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> };
 
-// keyof T --> "id" | "name"
-// T["id" | "name"] --> T["id"] | T["name"] --> number | string
+type DeepReadonly<T> = T extends (infer E)[] ?
+    ReadonlyArray<ReadonlyArray<DeepReadonlyObject<E>>> :
+  T extends object ? DeepReadonlyObject<T> :
+  T;
 
-type NumbersArrayFlattened = Flatten<typeof numbers>; // --> number
-type SomeObjectFlattened = Flatten<typeof someObject>; // --> number | string
-type SomeBooleanFlattened = Flatten<typeof someBoolean>; // --> true
+type IReadonlyRootState = DeepReadonly<IRootState>;
+
+function rootReducer(action: any, state: IReadonlyRootState): IReadonlyRootState {
+// function rootReducer(action: any, state: IRootState): IRootState {
+  // case action 1...
+  // case action 2...
+  return state;
+}
+
+let state: IReadonlyRootState;
+
+state.showCompletedOnly = true;
+state.userId = "newId";
+state.todoTypes = [];
+state.todoTypes[0] = "diff type";
+state.todos[1].linkedEmail.body = "hi";
+state.todos[1].linkedEmail.to[1] = "john@gmail.com";
+
+state.todoTypes.map(todo => todo.toUpperCase());
+state.iconGrid[0].map(icon => icon);
